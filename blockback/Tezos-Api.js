@@ -213,6 +213,29 @@ app.post('/xtzsendtx', function (req, res)
         } 
     })
 
+
+app.get('xtzinvokecontract', function (req, res))
+{
+    var pbk = req.param('publickey');
+    var prk = req.param('privatekey');
+    var pkh = req.param('publickeyhash');
+
+    const keystore = {
+        publicKey: pbk,
+        privateKey: prk,
+        publicKeyHash: pkh,
+        seed: '',
+        storeType: 'conseiljs.StoreType.Fundraiser',
+    };
+
+        const contractAddress = 'KT1KA7DqFjShLC4CPtChPX8QtRYECUb99xMY';
+    
+        const result = await conseiljs.TezosNodeWriter.sendContractInvocationOperation(tezosNode, keystore, contractAddress, 10000, 100000, '', 1000, 100000, '"Cryptonomicon"', conseiljs.TezosParameterFormat.Michelson);
+        console.log(`Injected operation group id ${result.operationGroupID}`);
+    }
+
+}
+
 app.post('/xtzsendtxuser', function (req, res){
         var post=req.body;
 
